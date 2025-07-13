@@ -16,6 +16,9 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Clone FFmpeg source code
+        run: git clone --depth 1 --branch n6.1 https://github.com/FFmpeg/FFmpeg.git ${{ github.workspace }}/ffmpeg
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -31,7 +34,7 @@ jobs:
 
       - name: Configure and Build
         run: |
-          qmake6 moonlight-qt.pro
+          qmake6 "FFMPEG_SRC_PATH=${{ github.workspace }}/ffmpeg" moonlight-qt.pro
           make -j$(nproc)
 
       - name: Upload artifact
