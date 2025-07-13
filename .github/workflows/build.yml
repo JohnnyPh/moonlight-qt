@@ -23,7 +23,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            build-essential \
+            build-essential nasm yasm \
             libegl1-mesa-dev libgl1-mesa-dev libopus-dev libsdl2-dev libsdl2-ttf-dev \
             libssl-dev libavcodec-dev libavformat-dev libswscale-dev libva-dev \
             libvdpau-dev libxkbcommon-dev wayland-protocols libdrm-dev \
@@ -31,6 +31,10 @@ jobs:
             qml6-module-qtquick-controls qml6-module-qtquick-templates \
             qml6-module-qtquick-layouts qml6-module-qtqml-workerscript \
             qml6-module-qtquick-window qml6-module-qtquick
+
+      - name: Configure FFmpeg
+        working-directory: ${{ github.workspace }}/ffmpeg
+        run: ./configure --disable-programs --enable-shared
 
       - name: Configure and Build
         run: |
